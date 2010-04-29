@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: buffer_complete.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 02 Mar 2010
+" Last Modified: 20 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,7 +22,6 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 4.10, for Vim 7.0
 "=============================================================================
 
 " Important variables.
@@ -100,7 +99,7 @@ function! neocomplcache#plugin#buffer_complete#get_keyword_list(cur_keyword_str)
     for src in s:get_sources_list()
       if has_key(s:sources[src].keyword_cache, l:key)
         let l:keyword_cache = values(s:sources[src].keyword_cache[l:key])
-        if len(a:cur_keyword_str) != s:completion_length
+        if len(a:cur_keyword_str) != s:completion_length || !&ignorecase
           let l:keyword_cache = neocomplcache#keyword_filter(l:keyword_cache, a:cur_keyword_str)
         endif
 
@@ -161,31 +160,43 @@ function! s:calc_frequency(list)"{{{
   if l:list_len > g:NeoComplCache_MaxList * 5
     let l:calc_cnt = 15
   elseif l:list_len > g:NeoComplCache_MaxList * 3
-    let l:calc_cnt = 10
+    let l:calc_cnt = 13
   elseif l:list_len > g:NeoComplCache_MaxList
-    let l:calc_cnt = 8
+    let l:calc_cnt = 10
   elseif l:list_len > g:NeoComplCache_MaxList / 2
-    let l:calc_cnt = 5
+    let l:calc_cnt = 8
   elseif l:list_len > g:NeoComplCache_MaxList / 3
-    let l:calc_cnt = 4
+    let l:calc_cnt = 5
   elseif l:list_len > g:NeoComplCache_MaxList / 4
-    let l:calc_cnt = 3
+    let l:calc_cnt = 4
   else
-    let l:calc_cnt = 2
+    let l:calc_cnt = 3
   endif
 
   let l:source = s:sources[bufnr('%')]
+  let l:frequencies = l:source.frequencies
   for keyword in a:list
+    let l:word = keyword.word
     if s:rank_cache_count <= 0
+          \|| !has_key(l:frequencies, l:word)
+          \|| l:frequencies[l:word] <= 1
+      
       " Set rank.
-      let l:frequencies = l:source.frequencies
-      let l:word = keyword.word
       let l:frequencies[l:word] = 0
       for cache_lines in values(l:source.cache_lines)
         if has_key(cache_lines.keywords, l:word)
           let l:frequencies[l:word] += cache_lines.keywords[l:word].rank
         endif
       endfor
+      if l:frequencies[l:word] == 0
+        " Delete.
+        let l:key = tolower(l:word[: s:completion_length-1])
+        "echomsg l:word
+        if has_key(l:source.keyword_cache[l:key], l:word)
+          call remove(l:source.keyword_cache[l:key], l:word)
+        endif
+        call remove(l:source.frequencies, l:word)
+      endif
 
       " Reset count.
       let s:rank_cache_count = (g:NeoComplCache_EnableRandomize)? 
@@ -411,6 +422,11 @@ function! s:word_caching(srcname)"{{{
   " Initialize source.
   call s:initialize_source(a:srcname)
 
+  if fnamemodify(bufname(str2nr(a:srcname)), ':t') ==# '[Command Line]'
+    " Ignore caching.
+    return
+  endif
+
   if s:caching_from_cache(a:srcname) == 0
     " Caching from cache.
     return
@@ -499,7 +515,6 @@ endfunction"}}}
 
 function! s:check_source()"{{{
   call s:check_deleted_buffer()
-  call s:garbage_collect(bufnr('%'))
 
   let l:bufnumber = 1
 
@@ -510,7 +525,6 @@ function! s:check_source()"{{{
       if (!has_key(s:sources, l:bufnumber) || s:check_changed_buffer(l:bufnumber))
             \&& !has_key(s:caching_disable_list, l:bufnumber)
             \&& (g:NeoComplCache_CachingDisablePattern == '' || l:bufname !~ g:NeoComplCache_CachingDisablePattern)
-            \&& l:bufname !=# '[Command line]'
             \&& getbufvar(l:bufnumber, '&readonly') == 0
             \&& getfsize(l:bufname) < g:NeoComplCache_CachingLimitFileSize
         " Caching.
@@ -562,8 +576,6 @@ function! s:save_cache(srcname)"{{{
     return -1
   endif
 
-  call s:garbage_collect(a:srcname)
-
   " Output buffer.
   call neocomplcache#cache#save_cache('buffer_cache', l:srcname, neocomplcache#unpack_dictionary_dictionary(s:sources[a:srcname].keyword_cache))
 endfunction "}}}
@@ -571,34 +583,6 @@ function! s:save_all_cache()"{{{
   for l:key in keys(s:sources)
     call s:save_cache(l:key)
   endfor
-endfunction"}}}
-function! s:garbage_collect(srcname)"{{{
-  " Garbage collect.
-  if neocomplcache#plugin#buffer_complete#caching_percent(a:srcname) == 100
-    let l:source = s:sources[a:srcname]
-    for [l:word, l:frequency] in items(l:source.frequencies)
-      if l:frequency == 0
-        " Calc frequency.
-        for cache_lines in values(l:source.cache_lines)
-          if has_key(cache_lines.keywords, l:word)
-            let l:frequency += cache_lines.keywords[l:word].rank
-          endif
-        endfor
-
-        if l:frequency == 0
-          " Delete.
-          let l:key = tolower(l:word[: s:completion_length-1])
-          "echomsg l:word
-          if has_key(l:source.keyword_cache[l:key], l:word)
-            call remove(l:source.keyword_cache[l:key], l:word)
-            call remove(l:source.frequencies, l:word)
-          endif
-        else
-          let l:source.frequencies[l:word] = l:frequency
-        endif
-      endif
-    endfor
-  endif
 endfunction"}}}
 
 " Command functions."{{{
