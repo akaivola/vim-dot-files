@@ -141,3 +141,5 @@ let g:user_zen_settings = {
   \  },
   \}
 
+" Autosave when focus lost
+autocmd BufLeave,FocusLost silent! wall
