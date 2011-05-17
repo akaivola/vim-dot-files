@@ -82,7 +82,9 @@ if has("autocmd")
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
+  " filetype plugin indent on
+  " vundle requires filetype off
+  filetype off
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
@@ -140,6 +142,21 @@ let g:user_zen_settings = {
   \    'extends' : 'html',
   \  },
   \}
+
+" Vundle
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+Bundle 'L9'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'skammer/vim-css-color'
+Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/syntastic'
+
+filetype plugin indent on
+
+" statusline
 
 " Autosave when focus lost
 autocmd BufLeave,FocusLost silent! wall
