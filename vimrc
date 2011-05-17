@@ -153,10 +153,27 @@ Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'skammer/vim-css-color'
 Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/syntastic'
+Bundle 'gregsexton/gitv'
 
 filetype plugin indent on
 
 " statusline
+set statusline=\ "
+set statusline+=%1*%-25.80f%*\ " file name minimum 25, maxiumum 80 (right justified)
+set statusline+=%2*
+set statusline+=%h "help file flag
+set statusline+=%r "read only flag
+set statusline+=%m "modified flag
+set statusline+=%w "preview flag
+set statusline+=%*\ "
+set statusline+=%3*[
+set statusline+=%{strlen(&ft)?&ft:'none'} " filetype
+set statusline+=]%*\ "
+set statusline+=%4*%{fugitive#statusline()}%*\ " Fugitive
+set statusline+=%6*%{SyntasticStatuslineFlag()}%* " Syntastic Syntax Checking
+set statusline+=%= " right align
+set statusline+=%8*%-14.(%l,%c%V%)\ %<%P%* " offset
+set laststatus=2
 
 " Autosave when focus lost
 autocmd BufLeave,FocusLost silent! wall
