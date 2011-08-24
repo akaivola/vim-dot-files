@@ -154,6 +154,9 @@ Bundle 'skammer/vim-css-color'
 Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/syntastic'
 Bundle 'gregsexton/gitv'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'neocomplcache'
+Bundle 'vim-scala'
 
 filetype plugin indent on
 
