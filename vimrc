@@ -154,7 +154,7 @@ Bundle 'skammer/vim-css-color'
 Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/syntastic'
 Bundle 'gregsexton/gitv'
-Bundle 'kchmck/vim-coffee-script'
+Bundle 'vim-coffee-script'
 Bundle 'neocomplcache'
 Bundle 'vim-scala'
 
@@ -180,3 +180,7 @@ set laststatus=2
 
 " Autosave when focus lost
 autocmd BufLeave,FocusLost silent! wall
+
+" Auto compile coffeescript upon save
+autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
+
