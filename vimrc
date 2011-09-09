@@ -127,9 +127,11 @@ set noswapfile
 " paste stuff by hitting f2 in insert. Don't forget to hit f2 after
 set pastetoggle=<F2>
 
-" just to the next row in the editor instead of actual line
+" just go to the next row in the editor instead of actual line
 nnoremap j gj
 nnoremap k gk
+
+nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 
 " sudo a file write by doing :w!!
 cmap w!! w !sudo tee % > /dev/null
