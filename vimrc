@@ -131,6 +131,12 @@ set pastetoggle=<F2>
 nnoremap j gj
 nnoremap k gk
 
+" arrows do Esc first
+inoremap  <Up>     <Esc><Up>
+inoremap  <Down>   <Esc><Down>
+inoremap  <Left>   <Esc><Left>
+inoremap  <Right>  <Esc><Right>
+
 nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 
 " sudo a file write by doing :w!!
