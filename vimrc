@@ -1,4 +1,3 @@
-
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -117,12 +116,16 @@ let g:neocomplcache_enable_at_startup = 1
 set showmatch
 
 set undolevels=1000
+set undofile
+set undodir=~/.undo
 
 set wildignore=*.swp,*.bak,*.class
 
 set noerrorbells
 set nobackup
 set noswapfile
+
+set rnu
 
 " paste stuff by hitting f2 in insert. Don't forget to hit f2 after
 set pastetoggle=<F2>
@@ -165,6 +168,9 @@ Bundle 'gregsexton/gitv'
 Bundle 'vim-coffee-script'
 Bundle 'neocomplcache'
 Bundle 'vim-scala'
+Bundle 'SuperTab-continued.'
+Bundle 'extradite.vim'
+Bundle 'EasyMotion'
 
 filetype plugin indent on
 
