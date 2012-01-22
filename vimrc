@@ -171,6 +171,9 @@ Bundle 'vim-scala'
 Bundle 'SuperTab-continued.'
 Bundle 'extradite.vim'
 Bundle 'EasyMotion'
+" After hitting p to paste, use ctrl-p or ctrl-n to cycle through paste options
+Bundle 'YankRing.vim'
+
 
 filetype plugin indent on
 
