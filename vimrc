@@ -24,6 +24,10 @@ set shiftwidth=2
 set nowrapscan
 set ignorecase
 set smartcase
+set autoread
+
+" Display tabs and trailing spaces visually
+" set list listchars=tab:\ \ ,trail:·
 
 " Syntax highlighting
 syntax on
@@ -129,6 +133,12 @@ set rnu
 
 " paste stuff by hitting f2 in insert. Don't forget to hit f2 after
 set pastetoggle=<F2>
+
+" disable arrow keys
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
 
 " just go to the next row in the editor instead of actual line
 nnoremap j gj
