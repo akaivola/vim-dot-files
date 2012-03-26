@@ -65,6 +65,9 @@ set grepprg=ack-grep\ -a
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
+" single character insert
+nmap <Space> i_<Esc>r
+
 " In many terminal emulators the mouse works just fine, thus enable it.
 set mouse=a
 
@@ -183,6 +186,8 @@ Bundle 'extradite.vim'
 Bundle 'EasyMotion'
 " After hitting p to paste, use ctrl-p or ctrl-n to cycle through paste options
 Bundle 'YankRing.vim'
+Bundle 'LargeFile'
+Bundle 'vim-indent-object'
 
 
 filetype plugin indent on
@@ -209,5 +214,7 @@ set laststatus=2
 autocmd BufLeave,FocusLost silent! wall
 
 " Auto compile coffeescript upon save
-autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
+" autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
+" Strip trailing whitespace from coffeescript on save
+autocmd BufWritePre *.coffee :%s/\s\+$//e
 
