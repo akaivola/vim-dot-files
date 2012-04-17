@@ -186,8 +186,10 @@ Bundle 'extradite.vim'
 Bundle 'EasyMotion'
 " After hitting p to paste, use ctrl-p or ctrl-n to cycle through paste options
 Bundle 'YankRing.vim'
+let g:yankring_manual_clipboard_check = 0
 Bundle 'LargeFile'
 Bundle 'vim-indent-object'
+Bundle 'sjl/vitality.vim'
 
 
 filetype plugin indent on
