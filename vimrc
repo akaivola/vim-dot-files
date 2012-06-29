@@ -57,7 +57,7 @@ set title
 set scrolloff=3 " Scrolling offset
 set number " line numbers
 " Grep with ack-grep
-set grepprg=ack-grep\ -a
+set grepprg=ack\ -a
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -126,7 +126,7 @@ set undolevels=1000
 set undofile
 set undodir=~/.undo
 
-set wildignore=*.swp,*.bak,*.class
+set wildignore=*.swp,*.bak,*.class,node_modules/*
 
 set noerrorbells
 set nobackup
@@ -190,6 +190,15 @@ let g:yankring_manual_clipboard_check = 0
 Bundle 'LargeFile'
 Bundle 'vim-indent-object'
 Bundle 'sjl/vitality.vim'
+Bundle 'ctrlp.vim'
+Bundle 'VimClojure'
+
+" ctrlp ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\node_modules$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 
 filetype plugin indent on
