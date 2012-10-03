@@ -118,7 +118,6 @@ colorscheme wombat
 " neocompletecache
 let g:neocomplcache_enable_at_startup = 1 
 
-
 " matching parenthesis
 set showmatch
 
@@ -157,6 +156,9 @@ nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 
 " sudo a file write by doing :w!!
 cmap w!! w !sudo tee % > /dev/null
+
+" sbt is scala syntax
+au BufNewFile,BufRead *.sbt set filetype=scala
 
 let g:user_zen_settings = {
   \  'xml' : {
@@ -229,3 +231,5 @@ autocmd BufLeave,FocusLost silent! wall
 " Strip trailing whitespace from coffeescript on save
 autocmd BufWritePre *.coffee :%s/\s\+$//e
 
+" Remove all trailing whitespace upon save
+autocmd BufWritePre * :%s/\s\+$//e
