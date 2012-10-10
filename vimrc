@@ -116,7 +116,7 @@ set autoindent " ^ above seems to not work with f.ex. groovy.
 colorscheme wombat
 
 " neocompletecache
-let g:neocomplcache_enable_at_startup = 1 
+let g:neocomplcache_enable_at_startup = 1
 
 " matching parenthesis
 set showmatch
@@ -159,6 +159,9 @@ cmap w!! w !sudo tee % > /dev/null
 
 " sbt is scala syntax
 au BufNewFile,BufRead *.sbt set filetype=scala
+
+" gradle is groovy syntax
+au BufNewFile,BufRead *.gradle set filetype=groovy
 
 let g:user_zen_settings = {
   \  'xml' : {
