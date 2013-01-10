@@ -26,6 +26,8 @@ set ignorecase
 set smartcase
 set autoread
 
+set clipboard=unnamed
+
 " Display tabs and trailing spaces visually
 " set list listchars=tab:\ \ ,trail:·
 
@@ -172,6 +174,11 @@ let g:user_zen_settings = {
   \  },
   \}
 
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
+augroup END
+
 " Vundle
 filetype off
 set rtp+=~/.vim/bundle/vundle/
@@ -197,6 +204,7 @@ Bundle 'vim-indent-object'
 Bundle 'sjl/vitality.vim'
 Bundle 'ctrlp.vim'
 Bundle 'VimClojure'
+Bundle 'gkz/vim-ls'
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
@@ -227,12 +235,13 @@ set statusline+=%8*%-14.(%l,%c%V%)\ %<%P%* " offset
 set laststatus=2
 
 " Autosave when focus lost
-autocmd BufLeave,FocusLost silent! wall
+autocmd BufLeave,FocusLost * silent! wall
 
 " Auto compile coffeescript upon save
 " autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
-" Strip trailing whitespace from coffeescript on save
-autocmd BufWritePre *.coffee :%s/\s\+$//e
 
 " Remove all trailing whitespace upon save
 autocmd BufWritePre * :%s/\s\+$//e
+
+" Compile LiveScript
+nmap <C-K> :LiveScriptCompile<CR><C-W>k
