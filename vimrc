@@ -205,6 +205,7 @@ Bundle 'sjl/vitality.vim'
 Bundle 'ctrlp.vim'
 Bundle 'VimClojure'
 Bundle 'gkz/vim-ls'
+Bundle 'benmills/vimux'
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
@@ -244,4 +245,27 @@ autocmd BufLeave,FocusLost * silent! wall
 autocmd BufWritePre * :%s/\s\+$//e
 
 " Compile LiveScript
-nmap <C-K> :LiveScriptCompile<CR><C-W>k
+" nmap <C-K> :LiveScriptCompile<CR><C-W>k
+
+
+" -------- vimux bindings ------------
+" Run the current file with rspec
+map <Leader>rb :call VimuxRunCommand("clear; rspec " . bufname("%"))<CR>
+
+" Prompt for a command to run
+map <Leader>rp :VimuxPromptCommand<CR>
+
+" Run last command executed by VimuxRunCommand
+map <Leader>rl :VimuxRunLastCommand<CR>
+
+" Inspect runner pane
+map <Leader>ri :VimuxInspectRunner<CR>
+
+" Prompt for a command to run
+map <LocalLeader>vp :VimuxPromptCommand<CR>
+
+" If text is selected, save it in the v buffer and send that buffer it to tmux
+vmap <LocalLeader>vs "vy:call VimuxRunCommand(@v . "\n", 0)<CR>
+
+" Select current paragraph and send it to tmux
+nmap <LocalLeader>vs vip<LocalLeader>vs<CR>
