@@ -167,6 +167,9 @@ au BufNewFile,BufRead *.sbt set filetype=scala
 " gradle is groovy syntax
 au BufNewFile,BufRead *.gradle set filetype=groovy
 
+" wisp is lisp syntax
+au BufNewFile,BufRead *.wisp set filetype=clojure
+
 let g:user_zen_settings = {
   \  'xml' : {
   \    'extends' : 'html',
@@ -185,32 +188,34 @@ augroup END
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-Bundle 'gmarik/vundle'
-Bundle 'L9'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'skammer/vim-css-color'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/syntastic'
-Bundle 'gregsexton/gitv'
-Bundle 'vim-coffee-script'
-Bundle 'neocomplcache'
-Bundle 'vim-scala'
-Bundle 'SuperTab-continued.'
-Bundle 'extradite.vim'
-Bundle 'EasyMotion'
+Plugin 'gmarik/vundle'
+Plugin 'L9'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'skammer/vim-css-color'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/syntastic'
+Plugin 'gregsexton/gitv'
+Plugin 'vim-coffee-script'
+Plugin 'neocomplcache'
+Plugin 'vim-scala'
+Plugin 'SuperTab-continued.'
+Plugin 'extradite.vim'
+Plugin 'EasyMotion'
 " After hitting p to paste, use ctrl-p or ctrl-n to cycle through paste options
-Bundle 'YankRing.vim'
+Plugin 'YankRing.vim'
 let g:yankring_manual_clipboard_check = 0
-Bundle 'LargeFile'
-Bundle 'vim-indent-object'
-Bundle 'sjl/vitality.vim'
-Bundle 'ctrlp.vim'
-Bundle 'VimClojure'
-Bundle 'gkz/vim-ls'
-Bundle 'benmills/vimux'
-Bundle 'xterm-color-table.vim'
-Bundle 'mbbill/undotree'
-Bundle 'vim-ipython'
+Plugin 'LargeFile'
+Plugin 'vim-indent-object'
+Plugin 'sjl/vitality.vim'
+Plugin 'ctrlp.vim'
+Plugin 'VimClojure'
+Plugin 'gkz/vim-ls'
+Plugin 'benmills/vimux'
+Plugin 'xterm-color-table.vim'
+Plugin 'mbbill/undotree'
+Plugin 'vim-ipython'
+Plugin 'amdt/vim-niji'
+Plugin 'paredit.vim'
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
@@ -218,6 +223,12 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.exe$\|\.so$\|\.dll$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+" Niji (rainbow parens filetypes)
+let g:niji_matching_filetypes = ['lisp', 'clojure', 'wisp', 'scheme']
+
+" Paredit
+au FileType *.wisp call PareditInitBuffer()
 
 
 filetype plugin indent on
@@ -274,3 +285,6 @@ vmap <LocalLeader>vs "vy:call VimuxRunCommand(@v . "\n", 0)<CR>
 
 " Select current paragraph and send it to tmux
 nmap <LocalLeader>vs vip<LocalLeader>vs<CR>
+
+"--------- custom bindings"
+map <Leader>t :tabnext<CR>
