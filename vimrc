@@ -170,6 +170,9 @@ au BufNewFile,BufRead *.gradle set filetype=groovy
 " wisp is lisp syntax
 au BufNewFile,BufRead *.wisp set filetype=clojure
 
+" jst is html
+au BufNewFile,BufRead *.jst set filetype=html
+
 let g:user_zen_settings = {
   \  'xml' : {
   \    'extends' : 'html',
