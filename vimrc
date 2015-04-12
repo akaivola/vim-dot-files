@@ -219,6 +219,7 @@ Plugin 'mbbill/undotree'
 Plugin 'vim-ipython'
 Plugin 'amdt/vim-niji'
 Plugin 'paredit.vim'
+Plugin 'Arduino-syntax-file'
 
 " ctrlp ignores
 let g:ctrlp_custom_ignore = {
